@@ -494,6 +494,8 @@ jobs:
             echo "CONFIG_SUSPEND_SKIP_SYNC=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_NET_SCH_DEFAULT=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_DEFAULT_FQ_CODEL=y" >> ./common/arch/arm64/configs/gki_defconfig
+            KCFLAGS_EXTRA="-mcpu=cortex-a520 ${KCFLAGS_EXTRA}"
+            KCFLAGS_EXTRA="-mllvm -polly -mllvm -polly-run-inliner -mllvm -polly-ast-use-context -mllvm -polly-num-threads=0 -mllvm -polly-omp-backend=LLVM -mllvm -polly-scheduling=dynamic -mllvm -polly-scheduling-chunksize=1 ${KCFLAGS_EXTRA}"
             if [[ "${{ github.event.inputs.bbr_enable }}" == "default" ]]; then
               echo "正在将BBR设为默认拥塞控制算法..."
               echo "CONFIG_DEFAULT_TCP_CONG=bbr" >> ./common/arch/arm64/configs/gki_defconfig
