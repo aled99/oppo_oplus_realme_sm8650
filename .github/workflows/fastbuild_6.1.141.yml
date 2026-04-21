@@ -498,13 +498,8 @@ jobs:
             echo "# CONFIG_MSM_KGSL_DEBUG is not set" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_DEBUG_KERNEL is not set" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_SLUB_DEBUG is not set" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "# CONFIG_DEBUG_LIST is not set" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "# CONFIG_PROFILING is not set" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_STACKTRACE is not set" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "# CONFIG_PM_ADVANCED_DEBUG is not set" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "# CONFIG_KUNIT is not set" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "# CONFIG_HZ_250 is not set" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_HZ_300=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_HZ=300" >> ./common/arch/arm64/configs/gki_defconfig
             KCFLAGS="-mcpu=cortex-a720"
             KCFLAGS="-fno-plt"
             KCFLAGS="-fomit-frame-pointer"
