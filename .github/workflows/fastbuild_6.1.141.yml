@@ -494,6 +494,10 @@ jobs:
             echo "CONFIG_SUSPEND_SKIP_SYNC=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_NET_SCH_DEFAULT=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_DEFAULT_FQ_CODEL=y" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "# CONFIG_NETFILTER_XT_TARGET_TRACE is not set" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_MSM_KGSL_DEBUG=n" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_DEBUG_KERNEL=n" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_DEBUG_INFO=n" >> ./common/arch/arm64/configs/gki_defconfig
             KCFLAGS="-mcpu=cortex-a720"
             KCFLAGS="-fno-plt"
             KCFLAGS="-fomit-frame-pointer"
@@ -502,7 +506,7 @@ jobs:
               echo "正在将BBR设为默认拥塞控制算法..."
               echo "CONFIG_DEFAULT_TCP_CONG=bbr" >> ./common/arch/arm64/configs/gki_defconfig
             else
-              echo "CONFIG_DEFAULT_TCP_CONG=cubic" >> ./common/arch/arm64/configs/gki_defconfig
+              echo "CONFIG_DEFAULT_TCP_CONG=bbr" >> ./common/arch/arm64/configs/gki_defconfig
             fi
           fi
 
