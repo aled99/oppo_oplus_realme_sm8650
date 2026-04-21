@@ -496,7 +496,7 @@ jobs:
             echo "CONFIG_DEFAULT_FQ_CODEL=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_NETFILTER_XT_TARGET_TRACE is not set" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_MSM_KGSL_DEBUG is not set" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "# CONFIG_PROFILING is not set" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "# CONFIG_STACKTRACE is not set" >> ./common/arch/arm64/configs/gki_defconfig
             KCFLAGS="-mcpu=cortex-a720"
             KCFLAGS="-fno-plt"
             KCFLAGS="-fomit-frame-pointer"
@@ -620,8 +620,8 @@ jobs:
           sudo rm -rf /usr/local/lib/android &
           sudo rm -rf /opt/ghc &
           sudo rm -rf /opt/hostedtoolcache/CodeQL &
-          make -j$(nproc --all) LLVM=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="ccache clang" LD="ld.lld" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KCFLAGS+=-march=armv9-a+crypto+nosve KCFLAGS=-fno-plt KCFLAGS=-fomit-frame-pointer KCFLAGS=-falign-functions=16 KAFLAGS+=-march=armv9-a+crypto+nosve KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KCFLAGS+=-Wno-error gki_defconfig &&
-          make -j$(nproc --all) LLVM=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="$(pwd)/cc-wrapper" LD="$(pwd)/ld-wrapper" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KCFLAGS+=-march=armv9-a+crypto+nosve KCFLAGS=-fno-plt KCFLAGS=-fomit-frame-pointer KCFLAGS=-falign-functions=16 KAFLAGS+=-march=armv9-a+crypto+nosve KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KCFLAGS+=-Wno-error Image
+          make -j$(nproc --all) LLVM=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="ccache clang" LD="ld.lld" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KCFLAGS+=-march=armv9-a+crypto+sve2+crc+dotprod KCFLAGS=-fno-plt KCFLAGS=-fomit-frame-pointer KCFLAGS=-falign-functions=16 KAFLAGS+=-march=armv9-a+crypto+nosve KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KCFLAGS+=-Wno-error gki_defconfig &&
+          make -j$(nproc --all) LLVM=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="$(pwd)/cc-wrapper" LD="$(pwd)/ld-wrapper" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KCFLAGS+=-march=armv9-a+crypto+sve2+crc+dotprod KCFLAGS=-fno-plt KCFLAGS=-fomit-frame-pointer KCFLAGS=-falign-functions=16 KAFLAGS+=-march=armv9-a+crypto+nosve KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KCFLAGS+=-Wno-error Image
           
           # 编译后时间劫持二次校验
           echo "--- 编译后环境时间: $(LD_PRELOAD=$PRELOAD_LIBS date) ---"
