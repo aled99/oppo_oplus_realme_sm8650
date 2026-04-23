@@ -500,6 +500,7 @@ jobs:
             echo "CONFIG_SUSPEND_SKIP_SYNC=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_NET_SCH_DEFAULT=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_DEFAULT_FQ_CODEL=y" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_MQ_IOSCHED_KYBER=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_NETFILTER_XT_TARGET_TRACE is not set" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_MSM_KGSL_DEBUG is not set" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_DEBUG_INFO is not set" >> ./common/arch/arm64/configs/gki_defconfig
