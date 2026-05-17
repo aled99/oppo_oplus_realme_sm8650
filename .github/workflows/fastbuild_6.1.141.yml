@@ -506,7 +506,6 @@ jobs:
             echo "# CONFIG_MSM_KGSL_DEBUG is not set" >> ./common/arch/arm64/configs/gki_defconfig
             KCFLAGS="-mcpu=cortex-a720"
             KCFLAGS="-fomit-frame-pointer"
-            KCFLAGS="-falign-functions=16"
             if [[ "${{ github.event.inputs.bbr_enable }}" == "default" ]]; then
               echo "正在将BBR设为默认拥塞控制算法..."
               echo "CONFIG_DEFAULT_TCP_CONG=bbr" >> ./common/arch/arm64/configs/gki_defconfig
@@ -627,8 +626,8 @@ jobs:
           sudo rm -rf /usr/local/lib/android &
           sudo rm -rf /opt/ghc &
           sudo rm -rf /opt/hostedtoolcache/CodeQL &
-          make -j$(nproc --all) LLVM=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="ccache clang" LD="ld.lld" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-fomit-frame-pointer KCFLAGS=-falign-functions=16 KAFLAGS+=-march=armv9.2-a+crypto+nosve+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KCFLAGS+=-Wno-error gki_defconfig &&
-          make -j$(nproc --all) LLVM=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="$(pwd)/cc-wrapper" LD="$(pwd)/ld-wrapper" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-fomit-frame-pointer KCFLAGS=-falign-functions=16 KAFLAGS+=-march=armv9.2-a+crypto+nosve+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=$(call cc-option,-mcpu=cortex-a720) KCFLAGS+=-Wno-error Image
+          make -j$(nproc --all) LLVM=1 LLVM_IAS=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="ccache clang" LD="ld.lld" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KAFLAGS+=-O2 KLDFLAGS+=-O2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-fomit-frame-pointer KAFLAGS+=-march=armv9.2-a+crc+crypto+nosve+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KLDFLAGS+=-fuse-ld=lld KCFLAGS+=-Wno-error gki_defconfig &&
+          make -j$(nproc --all) LLVM=1 LLVM_IAS=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="$(pwd)/cc-wrapper" LD="$(pwd)/ld-wrapper" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KAFLAGS+=-O2 KLDFLAGS+=-O2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-fomit-frame-pointer KAFLAGS+=-march=armv9.2-a+crc+crypto+nosve+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=$(call cc-option,-mcpu=cortex-a720) KCFLAGS+=-Wno-error Image
           
           # 编译后时间劫持二次校验
           echo "--- 编译后环境时间: $(LD_PRELOAD=$PRELOAD_LIBS date) ---"
