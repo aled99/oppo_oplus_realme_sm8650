@@ -508,9 +508,12 @@ jobs:
             echo "# CONFIG_FRAME_POINTER is not set" >> ./common/arch/arm64/configs/gki_defconfig
             echo "# CONFIG_INIT_STACK_ALL_ZERO is not set" >> ./common/arch/arm64/configs/gki_defconfig
             KCFLAGS="-mcpu=cortex-a720"
+            KCFLAGS="-mtune=cortex-a720"
             KCFLAGS="-falign-functions=32"
+            KCFLAGS="-fomit-frame-pointer"
             if [[ "${{ github.event.inputs.bbr_enable }}" == "default" ]]; then
-              echo "正在将BBR设为默认拥塞控制算法..."
+              echo "正在将BBR设为默认拥塞控制算
+            法..."
               echo "CONFIG_DEFAULT_TCP_CONG=bbr" >> ./common/arch/arm64/configs/gki_defconfig
             else
               echo "CONFIG_DEFAULT_TCP_CONG=bbr" >> ./common/arch/arm64/configs/gki_defconfig
@@ -527,6 +530,7 @@ jobs:
 
       - name: 启用Re-Kernel支持
         if: inputs.rekernel_enable
+
         run: |
           echo "正在启用Re-Kernel支持(用于与Freezer,NoActive等软件配合使用,提升冻结后台能力)…"
           cd kernel_workspace
@@ -629,8 +633,8 @@ jobs:
           sudo rm -rf /usr/local/lib/android &
           sudo rm -rf /opt/ghc &
           sudo rm -rf /opt/hostedtoolcache/CodeQL &
-          make -j$(nproc --all) LLVM=1 LLVM_IAS=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="ccache clang" LD="ld.lld" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KLDFLAGS+=--lto-O2 KLDFLAGS+=--lto-CGO2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-falign-functions=32 KAFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=-mtune=cortex-a720 KCFLAGS+=-Wno-error gki_defconfig &&
-          make -j$(nproc --all) LLVM=1 LLVM_IAS=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="$(pwd)/cc-wrapper" LD="$(pwd)/ld-wrapper" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KLDFLAGS+=--lto-O2 KLDFLAGS+=--lto-CGO2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-falign-functions=32 KAFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=-mtune=cortex-a720 KCFLAGS+=-Wno-error Image
+          make -j$(nproc --all) LLVM=1 LLVM_IAS=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="ccache clang" LD="ld.lld" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KLDFLAGS+=--lto-O2 KLDFLAGS+=--lto-CGO2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-falign-functions=32 KCFLAGS+=-mtune=cortex-a720 KAFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=-mtune=cortex-a720 KCFLAGS+=-Wno-error gki_defconfig &&
+          make -j$(nproc --all) LLVM=1 LLVM_IAS=1 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CC="$(pwd)/cc-wrapper" LD="$(pwd)/ld-wrapper" HOSTLD=ld.lld O=out KCFLAGS+=-O2 KLDFLAGS+=--lto-O2 KLDFLAGS+=--lto-CGO2 KCFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS=-falign-functions=32 KCFLAGS+=-mtune=cortex-a720 KAFLAGS+=-march=armv9.2-a+crypto+nosve+crc+dotprod KCFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=$(call cc-option,-mcpu=cortex-a720) KAFLAGS+=-mtune=cortex-a720 KCFLAGS+=-Wno-error Image
           
           # 编译后时间劫持二次校验
           echo "--- 编译后环境时间: $(LD_PRELOAD=$PRELOAD_LIBS date) ---"
